@@ -3,6 +3,8 @@ import Home from '../views/Home.vue'
 
 import store from '../store'
 
+import Category from '../views/Category.vue'
+
 
 
 const routes = [
@@ -10,6 +12,11 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/categories',
+    name: 'Category',
+    component: Category
   },
   {
     path: '/about',
