@@ -12,8 +12,8 @@
     </section>
     <hr>
     <div class="columns is-multiline">
-      <div class="title">
-        <h1 class="has-text-centered">Products</h1>
+      <div class="column is-12 title">
+        <p class="has-text-centered">Products</p>
       </div>
 
       <div class="column is-12 box">

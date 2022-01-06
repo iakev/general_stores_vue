@@ -16,7 +16,9 @@
                     <h3 class="is-size-4">
                         {{ category.name }}
                     </h3>
-                    <p>Details click button to view products</p>
+                    <router-link v-bind:to="category.get_absolute_url" class="button is-dark mt-4">
+                        View products
+                    </router-link>
                 </div>
             </div>                
         </div>
@@ -39,12 +41,9 @@ export default {
     },
     methods:{
         async getCategories(){
-        // const category_slug = this.$route.params.category_slug
-
-        this.$store.commit('setIsLoading',true)
+            this.$store.commit('setIsLoading',true)
         
         await axios 
-            // .get(`api/v1/products/${category_slug}`)
             .get(`api/v1/categories/`)
             .then(response => {
                 this.categories = response.data
@@ -52,8 +51,8 @@ export default {
             .catch(error =>{
                 console.log(error)
             })
-        this.$store.commit('setIsLoading',false)
-        }        
+            this.$store.commit('setIsLoading',false)
+        },
     },
 }
 </script>
