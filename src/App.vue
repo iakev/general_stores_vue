@@ -32,8 +32,8 @@
         </div>
         <div class="navbar-end">
           <router-link to="/categories" class="navbar-item">Categories</router-link>
-          <!-- <router-link to="/products" class="navbar-item">Products</router-link> -->
-          <!-- <router-link to="/log-in" class="navbar-item">Log in</router-link> -->
+          <router-link to="/sales" class="navbar-item">Sales</router-link>
+          <router-link to="/sales/new" class="navbar-item">New Sale</router-link>
         </div>
       </div>
     </nav>

@@ -5,6 +5,8 @@ import store from '../store'
 
 import Category from '../views/Category.vue'
 import Products from '../views/Products.vue'
+import Sales from '../views/Sales.vue'
+import NewSale from '../views/NewSale.vue'
 
 
 
@@ -23,6 +25,16 @@ const routes = [
     path: '/:category_slug',
     name: 'Products',
     component: Products
+  },
+  {
+    path: '/sales',
+    name: 'Sales',
+    component: Sales
+  },
+  {
+    path: '/sales/new',
+    name: 'NewSale',
+    component: NewSale
   },
   {
     path: '/about',
