@@ -6,7 +6,6 @@ import store from '../store'
 import Category from '../views/Category.vue'
 import Products from '../views/Products.vue'
 import Sales from '../views/Sales.vue'
-import NewSale from '../views/NewSale.vue'
 
 
 
@@ -32,9 +31,9 @@ const routes = [
     component: Sales
   },
   {
-    path: '/sales/new',
-    name: 'NewSale',
-    component: NewSale
+    path: '/sales/detail',
+    name: 'SalesDetail',
+    component: SalesDetail
   },
   {
     path: '/about',
