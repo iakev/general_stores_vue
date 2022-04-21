@@ -12,28 +12,29 @@
       <div class="navbar-menu" id="navbar-menu" v-bind:class="{'is-active': showMobileMenu}">
         <div class="navbar-start">
           <div class="navbar-item">
-            <form action="/search" method="get">
-              <div class="field has-addons">
+            <!-- <form action="/search" method="get"> -->
+              <!-- <div class="field has-addons">
                 <div class="control">
                   <input type="text" class="input" placeholder="What are you looking for" name="query">
-                </div>
+                </div> -->
 
-                <div class="control">
+                <!-- <div class="control">
                   <button class="button is-primary">
                     <span class="icon">
                       <i class="fas fa-search"></i>
                     </span>
                   </button>
-                </div>
-
-              </div>
-            </form>
+                </div> -->
+               <SearchBox></SearchBox>
+               
+                 
+              <!-- </div> -->
+            <!-- </form> -->
           </div>
         </div>
         <div class="navbar-end">
           <router-link to="/categories" class="navbar-item">Categories</router-link>
           <router-link to="/sales" class="navbar-item">Sales</router-link>
-          <router-link to="/sales/new" class="navbar-item">New Sale</router-link>
         </div>
       </div>
     </nav>
@@ -54,8 +55,16 @@
   </div>
 </template>
 
+
 <script>
+import ProductBox from '@/components/ProductBox.vue'
+import SearchBox from './components/SearchBox.vue'
+
 export default {
+  components : {
+    SearchBox,
+    ProductBox
+  },
   data() {
     return{
     showMobileMenu : false,
