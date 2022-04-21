@@ -2,38 +2,28 @@
     <div class="page-sales">
         <div class="columns is-multiline">
             <div class="column is-12 title">
-                <p class="has-text-centered">Sales</p>
+                <p class="has-text-centered">Sales List</p>
             </div>
-            <hr>
+
             <div class="column is-12 box">
                 <table class="table is-fullwidth">
                     <thead>
                         <tr>
-                            <th>Sale ref.</th>
-                            <th>Products</th>
-                            <th>Quantity Sold</th>
-                            <th>Price</th>
-                            <th>Sale Amount.</th>
-                            <th>Time Paid</th>
-                            <th>Sale Status</th>
+                          <th>Sale Ref.</th>
+                          <th>Sales Person</th>
+                          <th>Sale Amount</th>
+                          <th>Amount Paid</th>
+                          <th></th>
                         </tr>
                     </thead>
-                        <tbody v-for="item in itemsales"
-                            v-bind:key="item.id">
-                            <tr>
-                                <td>{{ item.id }}</td>
-                                <!-- <td>{{ data.products }}</td> -->
-                                <!-- <td>{{ data.quantity_sold }}</td> -->
-                                <td>{{ item.price }}</td>
-                                <td>{{ item.sale_amount }}</td>
-                                <td>{{ item.time_paid }}</td>
-                            <!--<td>{{ item.sales.sales_status }}</td> -->
-                            </tr>
+
+                    <tbody>
+                        <SalesListBox  
+                         v-for="sale in sales"
+                         v-bind:key="sale.id"
+                         v-bind:sale ="sale"/>
                     </tbody>
                 </table>
-            </div>
-            <div class="has-text-centered subtitle">
-                <router-link to="/sales/new" class="button is-primary">Add Sale</router-link>
             </div>
         </div>
     </div>
@@ -41,19 +31,29 @@
 
 <script>
 import axios from 'axios'
-
+import SalesListBox from '@/components/SalesListBox.vue'
 export default {
-    name: 'Sales',
+    name : 'Sales',
+    components : {
+        SalesListBox,
+    },
     data () {
         return {
-            itemsales : [],
-            salesxtradata : []
+            // itemsales : [],
+            // query: '',
+            // products : [],
+            // quantity_sold: 0,
+            // price_per_unit_retail : '',
+            // price_per_unit_wholesale : '',
+            // is_retail : true,
+            sales : [],
+
         }
     },
     mounted(){
         this.getSales()
-        this.getExtraSaleData()
         document.title = 'General Stores | Sales'
+        this.chooseSale()
     },
     methods: {
         async getSales(){
@@ -62,30 +62,50 @@ export default {
             await axios
                 .get(`api/v1/sales/`)
                 .then(response => {
-                    this.itemsales = response.data
+                    this.sales = response.data
                 })
                 .catch(error => {
                     console.log(error)
                 })
             this.$store.commit('setIsLoading',false)
         },
-
-        async getExtraSaleData(){
+        async setPrice(){
+            await axios
+                    .get('api/v1/')
+            this.price_per_unit_retail = this.products.rate_out_retail
+            this.price_per_unit_wholesale =this.products.rate_out_wholesale
+        },
+        async chooseSale(){
             this.$store.commit('setIsLoading',true)
             await axios
-                .get(`api/v1/sales/receipts/`)
-                .then(response => {
-                    this.salesxtradata = response.data
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+                     .get('api/v1/sales/')
+                     .then( response => {
+                         this.sales = response.data
+                     })
+                     .catch( error =>{
+                         console.log(error)
+                     })
             this.$store.commit('setIsLoading',false)
-        }
-    },
-    computed: {
-        getdata(){
-            return this.salesxtradata
+        },        
+        async submitForm(){
+            const data = {
+                // 'products': this.products.id,
+                'products': this.products,
+                'quantity_sold': this.quantity_sold,
+                'price_per_unit_retail' : this.price_per_unit_retail,
+                'price_per_unit_wholesale' : this.price_per_unit_wholesale,
+                'is_retail' : this.is_retail,
+                'sales' : this.sales,
+            }
+            this.$store.commit('setIsLoading',true)
+            await axios
+                    .post('api/v1/sales/receipts/',data)
+                    .then( response => {
+                    })
+                    .catch( error => {
+                        console.log(error)
+                    })
+            this.$store.commit('setIsLoading',false)
         }
     }
 }
