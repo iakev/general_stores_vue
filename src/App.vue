@@ -26,8 +26,7 @@
                   </button>
                 </div> -->
                <SearchBox></SearchBox>
-               
-                 
+
               <!-- </div> -->
             <!-- </form> -->
           </div>
@@ -38,7 +37,7 @@
         </div>
       </div>
     </nav>
-    
+
     <div class="is-loading-bar has-text-centered" v-bind:class="{'is-loading': $store.state.isLoading }">
         <div class="lds-dual-ring">
 
@@ -49,30 +48,28 @@
     <router-view/>
   </section>
 
-  <footer class="footer"> 
+  <footer class="footer">
      <p class="has-text-centered">Copyright (c) 2022</p>
   </footer>
   </div>
 </template>
-
 
 <script>
 import ProductBox from '@/components/ProductBox.vue'
 import SearchBox from './components/SearchBox.vue'
 
 export default {
-  components : {
-    SearchBox,
-    ProductBox
+  components: {
+    SearchBox
+    // ProductBox
   },
-  data() {
-    return{
-    showMobileMenu : false,
+  data () {
+    return {
+      showMobileMenu: false
     }
-  },
+  }
 }
 </script>
-
 
 <style lang="scss">
 @import '../node_modules/bulma';

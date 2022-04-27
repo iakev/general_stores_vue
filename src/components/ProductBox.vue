@@ -11,9 +11,9 @@
 
 <script>
 export default {
-    name: 'ProductBox',
-    props: {
-        product : Object
-    },
+  name: 'ProductBox',
+  props: {
+    product: Object
+  }
 }
 </script>

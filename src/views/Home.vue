@@ -1,6 +1,6 @@
 <template>
   <div class="page-home">
-    <section class="hero is-primary"> 
+    <section class="hero is-primary">
       <div class="hero-body has-text-centered">
         <p class="title">
           Welcome to General stores
@@ -27,13 +27,13 @@
               <th>Quantity</th>
             </tr>
           </thead>
-                
+
           <tbody>
             <ProductBox
               v-for="product in products"
               v-bind:key="product.id"
               v-bind:product ="product"/>
-          </tbody>  
+          </tbody>
         </table>
       </div>
     </div>
@@ -47,30 +47,30 @@ import ProductBox from '@/components/ProductBox.vue'
 
 export default {
   name: 'Home',
-  components : {
+  components: {
     ProductBox
   },
   data () {
     return {
-      products : []
+      products: []
     }
   },
-  mounted(){
+  mounted () {
     this.getProducts()
     document.title = 'General Stores | Home'
   },
   methods: {
-    async getProducts(){
-      this.$store.commit('setIsLoading',true)
-      await axios 
-        .get(`api/v1/products/`)
+    async getProducts () {
+      this.$store.commit('setIsLoading', true)
+      await axios
+        .get('api/v1/products/')
         .then(response => {
           this.products = response.data
         })
-        .catch(error =>{
+        .catch(error => {
           console.log(error)
         })
-      this.$store.commit('setIsLoading',false)
+      this.$store.commit('setIsLoading', false)
     }
   }
 }

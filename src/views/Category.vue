@@ -20,7 +20,7 @@
                         View products
                     </router-link>
                 </div>
-            </div>                
+            </div>
         </div>
     </div>
 </template>
@@ -29,31 +29,31 @@
 import axios from 'axios'
 
 export default {
-    name: 'Category',
-    data (){
-        return {
-            categories: []
-        }
-    },
-    mounted(){
-        this.getCategories()
-        document.title = 'Categories | General Stores'
-    },
-    methods:{
-        async getCategories(){
-            this.$store.commit('setIsLoading',true)
-        
-        await axios 
-            .get(`api/v1/categories/`)
-            .then(response => {
-                this.categories = response.data
-            })
-            .catch(error =>{
-                console.log(error)
-            })
-            this.$store.commit('setIsLoading',false)
-        },
-    },
+  name: 'Category',
+  data () {
+    return {
+      categories: []
+    }
+  },
+  mounted () {
+    this.getCategories()
+    document.title = 'Categories | General Stores'
+  },
+  methods: {
+    async getCategories () {
+      this.$store.commit('setIsLoading', true)
+
+      await axios
+        .get('api/v1/categories/')
+        .then(response => {
+          this.categories = response.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      this.$store.commit('setIsLoading', false)
+    }
+  }
 }
 </script>
 

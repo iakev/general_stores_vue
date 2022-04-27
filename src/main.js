@@ -7,5 +7,4 @@ import axios from 'axios'
 // axios making requests in django server
 axios.defaults.baseURL = 'http://127.0.0.1:8000'
 
-createApp(App).use(store).use(router,axios).mount('#app')
-    
+createApp(App).use(store).use(router, axios).mount('#app')

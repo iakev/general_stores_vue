@@ -6,8 +6,7 @@ import store from '../store'
 import Category from '../views/Category.vue'
 import Products from '../views/Products.vue'
 import Sales from '../views/Sales.vue'
-
-
+import SaleDetail from '../views/SaleDetail'
 
 const routes = [
   {
@@ -31,9 +30,9 @@ const routes = [
     component: Sales
   },
   {
-    path: '/sales/detail',
+    path: '/sales/:id',
     name: 'SalesDetail',
-    component: SalesDetail
+    component: SaleDetail
   },
   {
     path: '/about',
