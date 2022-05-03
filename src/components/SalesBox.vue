@@ -10,13 +10,41 @@
 </template>
 
 <script>
+// import axios from 'axios'
 export default {
-  // name: 'SalesBox',
+  name: 'SalesBox',
   props: {
     sale: {
-      type: {},
-      required: true
+      // type: {},
+      // required: true
     }
   }
+  // mounted () {
+  //   this.getAssociatedProducts()
+  // },
+  // data () {
+  //   return {
+  //     associated_products: []
+  //   }
+  // },
+
+  // methods: {
+  //   async getAssociatedProducts () {
+  //     this.$store.commit('setIsLoading', true)
+
+  //     for (const productId of this.sale.products) {
+  //       await axios
+  //         .get(`api/v1/products/${productId}`)
+  //         .then(response => {
+  //           this.associated_products.push(response.data)
+  //         })
+  //         .catch(error => {
+  //           console.log(error)
+  //         })
+  //     }
+
+  //     this.$store.commit('setIsLoading', false)
+  //   }
+  // }
 }
 </script>
