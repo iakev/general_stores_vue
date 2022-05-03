@@ -5,16 +5,16 @@
             </div>
             <hr>
             <div class="field column is-one-third">
-                        <label class="label">Sales Time</label>
-                        <div class="control">
-                            <input type="text" class="input" v-model="time">
-                        </div>
+              <label class="label">Sales Time</label>
+                <div class="notification is-primary is-light">
+                  {{ sale.time_created }}
+                </div>
             </div>
             <div class="field column is-one-third">
-                        <label class="label">Sales Person</label>
-                        <div class="control">
-                            <input type="text" class="input" v-model="user">
-                        </div>
+              <label class="label">Sales Person</label>
+              <div class="notification is-primary is-light">
+                  <p> <strong>User to be added</strong> </p>
+              </div>
             </div>
             <div class="field column is-one-third">
                         <label class="label">Sales Type</label>
@@ -59,6 +59,9 @@ export default {
       associated_products: []
     }
   },
+  mounted () {
+    this.getSale()
+  },
   methods: {
     async getSale () {
       const saleId = this.$route.params.id
@@ -68,10 +71,28 @@ export default {
         .get(`api/v1/sales/${saleId}`)
         .then(response => {
           this.sale = response.data
+          this.getAssociatedProducts()
         })
         .catch(error => {
           console.log(error)
         })
+
+      this.$store.commit('setIsLoading', false)
+    },
+
+    async getAssociatedProducts () {
+      this.$store.commit('setIsLoading', true)
+
+      for (const productId of this.sale.products) {
+        await axios
+          .get(`api/v1/products/${productId}`)
+          .then(response => {
+            this.associated_products.push(response.data)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
 
       this.$store.commit('setIsLoading', false)
     }
