@@ -41,23 +41,23 @@ export default {
   data () {
     return {
       products: [],
-      category: this.$route.params.category_slug
+      category: this.$route.params.categorySlug
     }
   },
   mounted () {
-    this.getProducts()
+    this.getProductsCategory()
   },
   methods: {
-    async getProducts () {
-      const category_slug = this.$route.params.category_slug
+    async getProductsCategory () {
+      const categorySlug = this.$route.params.categorySlug
 
       this.$store.commit('setIsLoading', true)
 
       await axios
-        .get(`api/v1/categories/${category_slug}`)
+        .get(`api/v1/categories/${categorySlug}`)
         .then(response => {
           this.products = response.data
-          document.title = 'General Stores | category_slug'
+          document.title = 'General Stores | categorySlug'
         })
         .catch(error => {
           console.log(error)
