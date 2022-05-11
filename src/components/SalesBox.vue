@@ -1,50 +1,34 @@
 <template>
-     <tr>
-        <td>{{ sale.id }}</td>
-        <td>{{ sale.products }}</td>
-        <td>{{ sale.sale_amount }}</td>
-        <!-- <td>{{ price_per_unit_retail }}</td> -->
-        <!-- <td>{{ sales.sale_amount_paid }}</td> -->
-        <!-- <td>{{ sales.time_paid }}</td> -->
-    </tr>
+  <tr v-for="product in associated_products" :key="product.id">
+      <td >{{product.name }}</td>
+      <td >{{product.code }}</td>
+      <td>{{ product.description }}</td>
+      <td v-if="product.quantity > 0">Yes</td>
+      <td v-else > No </td>
+      <td>{{ product.pack_type }}</td>
+      <td>{{ sales_receipts.filter(sales_receipt => sales_receipt.products === product.id)[0].quantity_sold }}</td>
+      <td>{{ product.rate_out_retail }}</td>
+      <td> 0 </td>
+      <td> {{ sales_receipts.filter(sales_receipt => sales_receipt.products === product.id)[0].price }} </td>
+  </tr>
 </template>
 
 <script>
-// import axios from 'axios'
 export default {
   name: 'SalesBox',
   props: {
     sale: {
-      // type: {},
-      // required: true
+      type: Object,
+      required: true
+    },
+    associated_products: {
+      type: Array,
+      required: true
+    },
+    sales_receipts: {
+      type: Array,
+      required: true
     }
   }
-  // mounted () {
-  //   this.getAssociatedProducts()
-  // },
-  // data () {
-  //   return {
-  //     associated_products: []
-  //   }
-  // },
-
-  // methods: {
-  //   async getAssociatedProducts () {
-  //     this.$store.commit('setIsLoading', true)
-
-  //     for (const productId of this.sale.products) {
-  //       await axios
-  //         .get(`api/v1/products/${productId}`)
-  //         .then(response => {
-  //           this.associated_products.push(response.data)
-  //         })
-  //         .catch(error => {
-  //           console.log(error)
-  //         })
-  //     }
-
-  //     this.$store.commit('setIsLoading', false)
-  //   }
-  // }
 }
 </script>
