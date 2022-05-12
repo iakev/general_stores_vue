@@ -5,29 +5,29 @@
     </div>
     <hr>
 
-    <div class="field column is-one-quarter">
+    <div class="field column is-one-third">
       <label class="label">Sales Time</label>
         <div class="notification is-primary is-light">
           {{ sale.time_created }}
         </div>
     </div>
 
-    <div class="field column is-one-quarter">
+    <div class="field column is-one-third">
       <label class="label">Sales Person</label>
       <div class="notification is-primary is-light">
           <p> <strong>User to be added</strong> </p>
       </div>
     </div>
 
-    <div class="field column is-one-quarter">
+    <!-- <div class="field column is-one-third">
       <label class="label">Sales Type</label>
       <div class="notification is-primary is-light">
           <input type="checkbox">
                 Is retail
       </div>
-    </div>
+    </div> -->
 
-    <div class="field column is-one-quarter">
+    <div class="field column is-one-third">
       <label class="label">Sales No.</label>
       <div class="notification is-primary is-light">
           {{ sale.id }}
@@ -43,6 +43,7 @@
                     <th>Product Details</th>
                     <th>Available</th>
                     <th>Packaging</th>
+                    <th>Sales Type</th>
                     <th>QTY</th>
                     <th>@Price</th>
                     <th>Disc</th>
@@ -126,39 +127,6 @@ export default {
 
       this.$store.commit('setIsLoading', false)
     }
-    //   async chooseSale () {
-    //     this.$store.commit('setIsLoading', true)
-    //     await axios
-    //       .get('api/v1/sales/')
-    //       .then(response => {
-    //         this.sales = response.data
-    //       })
-    //       .catch(error => {
-    //         console.log(error)
-    //       })
-    //     this.$store.commit('setIsLoading', false)
-    //   },
-
-  //   async submitForm () {
-  //     const data = {
-  //       // 'products': this.products.id,
-  //       products: this.products,
-  //       quantity_sold: this.quantity_sold,
-  //       price_per_unit_retail: this.price_per_unit_retail,
-  //       price_per_unit_wholesale: this.price_per_unit_wholesale,
-  //       is_retail: this.is_retail,
-  //       sales: this.sales
-  //     }
-  //     this.$store.commit('setIsLoading', true)
-  //     await axios
-  //       .post('api/v1/sales/receipts/', data)
-  //       .then(response => {
-  //       })
-  //       .catch(error => {
-  //         console.log(error)
-  //       })
-  //     this.$store.commit('setIsLoading', false)
-  //   }
   }
 }
 </script>
