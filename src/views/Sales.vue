@@ -23,6 +23,9 @@
                 </table>
             </div>
         </div>
+        <router-link to="/sales/new" class="button is-dark mt-4">
+            New Sale
+        </router-link>
     </div>
 </template>
 
