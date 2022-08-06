@@ -55,13 +55,12 @@
 </template>
 
 <script>
-import ProductBox from '@/components/ProductBox.vue'
-import SearchBox from './components/SearchBox.vue'
+// import ProductBox from '@/components/ProductBox.vue'
+import SearchBox from '@/components/SearchBox.vue'
 
 export default {
   components: {
     SearchBox
-    // ProductBox
   },
   data () {
     return {
