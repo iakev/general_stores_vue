@@ -12,8 +12,9 @@
                 </div>
             </div>
             <div class="select level-item">
-                <select >
-                    <option v-for="product in products" v-bind:key=product.id>{{ product.name }}  </option>
+                <select v-model="selected_product" @change="$emit('add-product-sale',this.selected_product)">
+                    <option>Choose the product</option>
+                    <option v-for="product in products" v-bind:key=product.id>{{ product.name }}</option>
                 </select>
             </div>
         </div>
@@ -26,13 +27,11 @@ import axios from 'axios'
 
 export default {
   name: 'SearchBox',
-  props: {
-    product: Object
-  },
   data () {
     return {
       products: [],
-      query: ''
+      query: '',
+      selected_product: []
     }
   },
   methods: {
