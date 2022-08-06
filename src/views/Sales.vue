@@ -39,21 +39,12 @@ export default {
   },
   data () {
     return {
-      // itemsales : [],
-      // query: '',
-      // products : [],
-      // quantity_sold: 0,
-      // price_per_unit_retail : '',
-      // price_per_unit_wholesale : '',
-      // is_retail : true,
       sales: []
-
     }
   },
   mounted () {
     this.getSales()
     document.title = 'General Stores | Sales'
-    // this.chooseSale()
   },
   methods: {
     async getSales () {
@@ -69,24 +60,7 @@ export default {
         })
       this.$store.commit('setIsLoading', false)
     }
-    // async setPrice(){
-    //     await axios
-    //             .get('api/v1/')
-    //     this.price_per_unit_retail = this.products.rate_out_retail
-    //     this.price_per_unit_wholesale =this.products.rate_out_wholesale
-    // },
-    // async chooseSale(){
-    //     this.$store.commit('setIsLoading',true)
-    //     await axios
-    //              .get('api/v1/sales/')
-    //              .then( response => {
-    //                  this.sales = response.data
-    //              })
-    //              .catch( error =>{
-    //                  console.log(error)
-    //              })
-    //     this.$store.commit('setIsLoading',false)
-    // },
+
     // async submitForm(){
     //     const data = {
     //         // 'products': this.products.id,
