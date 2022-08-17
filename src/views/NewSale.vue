@@ -34,6 +34,7 @@
         <table class="table is-fullwidth">
             <thead>
                 <tr>
+                    <!-- @add-product-sale="addProducts" -->
                     <th>Name</th>
                     <th>Code</th>
                     <th>Product Details</th>
@@ -46,11 +47,24 @@
                     <th>Total</th>
                 </tr>
             </thead>
-                <tbody>
+            <tbody>
+                <tr>
+                  <td><SearchAutocompleteBox/></td>
+                  <td><SearchAutocompleteBox/></td>
+                  <td>To be pop</td>
+                  <td>To be pop</td>
+                  <td>To be pop</td>
+                  <td>To be pop</td>
+                  <td>To be pop</td>
+                  <td>To be pop</td>
+                  <td>To be pop</td>
+                  <td>To be pop</td>
+
+                </tr>    
                     <SalesBox :sale="sale" :associated_products="associated_products" :sales_receipts="sales_receipts"/>
             </tbody>
         </table>
-    </div>
+    </div>  
 
     <div class="column is-two-thirds">
       <label class="label">Add product</label>
@@ -87,14 +101,16 @@
 <script>
 import axios from 'axios'
 import SearchBox from '../components/SearchBox.vue'
+import SearchAutocompleteBox from '../components/SearchAutocompleteBox.vue'
 
 export default {
   name: 'NewSale',
   components: {
+    SearchAutocompleteBox,
     SearchBox
   },
   data () {
-    return {
+    return{
       sales_status: [],
       selected_status: '',
       sale: '',
@@ -105,7 +121,7 @@ export default {
     }
   },
   mounted () {
-    this.status()
+    this.status();
   },
   methods: {
     status () {
