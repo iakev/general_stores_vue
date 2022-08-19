@@ -48,21 +48,34 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                  <td><SearchAutocompleteBox/></td>
-                  <td><SearchAutocompleteBox/></td>
-                  <td>To be pop</td>
-                  <td>To be pop</td>
-                  <td>To be pop</td>
-                  <td>To be pop</td>
-                  <td>To be pop</td>
-                  <td>To be pop</td>
-                  <td>To be pop</td>
-                  <td>To be pop</td>
-
-                </tr>    
-                    <SalesBox :sale="sale" :associated_products="associated_products" :sales_receipts="sales_receipts"/>
+              <SearchAutocompleteBox @return-search-result="addSearch"/>
+                <tr v-for="(row, index) in tablerows">
+                  <!-- <td><SearchAutocompleteBox @return-search-result="addSearch"/></td> -->
+                  <td v-if="tablerows.length">{{ row.name }}</td>
+                  <td v-else></td>
+                  <td v-if="tablerows.length">{{ row.code }}</td>
+                  <td v-else></td>
+                  <td v-if="tablerows.length">{{ row.description }}</td>
+                  <td v-else></td>
+                  <td v-if="tablerows.length">{{ row.quantity }}</td>
+                  <td v-else></td>
+                  <td v-if="tablerows.length">{{ row.pack_type }}</td>
+                  <td v-else></td>
+                  <td> 
+                      <input class="notification is-primary is-small" v-model="retail" type="checkbox">
+                        Is retail?
+                  </td>
+                  <td>
+                      <input class="input is-primary is-small" v-model="quantity" type="number">
+                  </td>
+                  <td v-if="retail">{{ row.rate_out_retail }}</td>
+                  <td v-else>{{ row.rate_out_wholesale }}</td>
+                  <td>0.0</td>
+                  <td v-if="retail">{{ row.rate_out_retail * quantity }}</td>
+                  <td v-else>{{ row.rate_out_wholesale * quantity }}</td>
+                </tr>  
             </tbody>
+            <SalesBox :sale="sale" :associated_products="associated_products" :sales_receipts="sales_receipts"/>
         </table>
     </div>  
 
@@ -117,7 +130,10 @@ export default {
       product: '',
       receipt: '',
       retail: true,
-      quantity: 0
+      quantity: 0,
+      search_result: {},
+      tablerows: [],
+      tablerowcounter: 0
     }
   },
   mounted () {
@@ -186,6 +202,15 @@ export default {
 
     addProducts (selected) {
       this.performSearch(selected)
+    },
+    addSearch(search) {
+      this.search_result = search
+      this.tablerows.push(this.search_result)
+    },
+    addTableRow() {
+      this.tablerowcounter++
+      // this.tablerows.push(this.search_result)
+      console.log(this.tablerows)
     }
     // async submitForm () {
     //   const data = {
