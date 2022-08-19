@@ -1,13 +1,13 @@
 <template>
     <div class="autocomplete content">
-      <input v-model="search" @input="onChange"
+      <input v-model="query" @input="onChange"
       @keydown.down
       @keydown.up
       @keydown.enter="setProduct(product.name,product.id)"
       class="input" type="text" placeholder="Search product">
       <ul v-show="isOpen" class="autocomplete-results">
         <li v-for="(product, i) in products" :key="i"
-        @click="setProduct(product.name,product.id)"
+        @click="setProduct(product), $emit('return-search-result', this.search)"
         class="autocomplete-results"> {{ product.name }} </li>
       </ul>
     </div>
@@ -22,9 +22,10 @@ export default {
   data () {
     return {
       products: [],
-      search: '',
+      search: [],
       selected_products: [],
-      isOpen: false
+      isOpen: false,
+      query: ''
     }
   },
   mounted() {
@@ -38,7 +39,7 @@ export default {
       this.$store.commit('setIsLoading', true)
 
       await axios
-        .post('api/v1/products/search/', { query: this.search })
+        .post('api/v1/products/search/', { query: this.query })
         .then(response => {
           this.products = response.data
         })
@@ -56,10 +57,12 @@ export default {
         this.isOpen = false;
       }
     },
-    setProduct(product,productId){
-      this.selected_products.push(productId);
-      this.search = product,
+    setProduct(product){
+      this.selected_products.push(product.id);
+      this.query = product.name
+      this.search = product
       this.isOpen = false;
+      this.products = [];
     }
   }
 }
