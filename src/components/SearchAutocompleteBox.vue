@@ -41,10 +41,10 @@ export default {
       await axios
         .post('api/v1/products/search/', { query: this.query })
         .then(response => {
-          this.products = response.data
+          this.products = response.data;
         })
         .catch(error => {
-          console.log(error)
+          console.log(error);
         })
       this.$store.commit('setIsLoading', false)
     },
@@ -59,8 +59,8 @@ export default {
     },
     setProduct(product){
       this.selected_products.push(product.id);
-      this.query = product.name
-      this.search = product
+      this.query = product.name;
+      this.search = product;
       this.isOpen = false;
       this.products = [];
     }
