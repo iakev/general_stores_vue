@@ -62,17 +62,19 @@
                   <td v-if="tablerows.length">{{ row.pack_type }}</td>
                   <td v-else></td>
                   <td> 
-                      <input class="notification is-primary is-small" v-model="retail" type="checkbox">
+                      <input @change="setRetail()"
+                      class="notification is-primary is-small" v-model="retail_array[index]" type="checkbox">
                         Is retail?
                   </td>
                   <td>
-                      <input class="input is-primary is-small" v-model="quantity" type="number">
+                      <input @keydown.enter="addProduct()"
+                      class="input is-primary is-small" v-model="quantity_array[index]" type="number">
                   </td>
-                  <td v-if="retail">{{ row.rate_out_retail }}</td>
+                  <td v-if="retail_array[index]">{{ row.rate_out_retail }}</td>
                   <td v-else>{{ row.rate_out_wholesale }}</td>
                   <td>0.0</td>
-                  <td v-if="retail">{{ row.rate_out_retail * quantity }}</td>
-                  <td v-else>{{ row.rate_out_wholesale * quantity }}</td>
+                  <td v-if="retail_array[index]">{{ row.rate_out_retail * quantity_array[index] }}</td>
+                  <td v-else>{{ row.rate_out_wholesale * quantity_array[index] }}</td>
                 </tr>  
             </tbody>
             <SalesBox :sale="sale" :associated_products="associated_products" :sales_receipts="sales_receipts"/>
@@ -129,21 +131,23 @@ export default {
       sale: '',
       product: '',
       receipt: '',
-      retail: true,
-      quantity: 0,
+      retail: false,
+      retail_array:[false],
+      quantity:0,
+      quantity_array: [],
       search_result: {},
       tablerows: [],
       tablerowcounter: 0
     }
   },
   mounted () {
-    this.status();
+    this.status()
   },
   methods: {
     status () {
       const stati = ['Pending', 'In-progress', 'Sold']
       for (const stat of stati) {
-        this.sales_status.push(stat)
+        this.sales_status.push(stat);
       }
     },
     async createSale () {
@@ -155,8 +159,8 @@ export default {
       await axios
         .post('api/v1/new_sale', data)
         .then(response => {
-          this.sale = response.data
-          this.saleId = this.sale.id
+          this.sale = response.data;
+          this.saleId = this.sale.id;
         })
         .catch(error => {
           console.log(error)
@@ -170,12 +174,12 @@ export default {
       await axios
         .post('api/v1/products/sales_search/', { query: selectedProduct })
         .then(response => {
-          this.product = response.data
+          this.product = response.data;
           this.addProductsToSales(this.sale, this.product)
           console.log(this.product.id)
         })
         .catch(error => {
-          console.log(error)
+          console.log(error);
         })
       this.$store.commit('setIsLoading', false)
     },
@@ -191,7 +195,7 @@ export default {
       await axios
         .post(`api/v1/sales/receipts/${sale.id}/`, data)
         .then(response => {
-          this.receipt = response.data
+          this.receipt = response.data;
           console.log(this.receipt)
         })
         .catch(error => {
@@ -202,16 +206,22 @@ export default {
 
     addProducts (selected) {
       this.performSearch(selected)
+
     },
     addSearch(search) {
-      this.search_result = search
+      this.search_result = search;
       this.tablerows.push(this.search_result)
+      this.tablerowcounter++;
     },
-    addTableRow() {
-      this.tablerowcounter++
-      // this.tablerows.push(this.search_result)
-      console.log(this.tablerows)
+    setRetail() {
+      this.retail = this.retail_array[this.tablerowcounter - 1];
+      console.log(this.retail)
+    },
+    addProduct() {
+      this.quantity = this.quantity_array[this.tablerowcounter - 1];
+      this.addProductsToSales(this.sale, this.search_result)
     }
+
     // async submitForm () {
     //   const data = {
     //     // 'products': this.products.id,
