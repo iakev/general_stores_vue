@@ -23,6 +23,7 @@
       <label class="label">Sales Status</label>
       <div class="notification is-primary is-light">
         <div class="select level-item">
+          <!-- need to find another way to create a sale since this cant cut it -->
           <select v-model="selected_status" @change="createSale()">
             <option v-for="(status,index) in sales_status" :key="index">{{ status }}</option>
           </select>
@@ -67,47 +68,37 @@
                         Is retail?
                   </td>
                   <td>
-                      <input @keydown.enter="addProduct()"
+                      <input @keydown.enter="addProduct(); getGrandTotal()"
                       class="input is-primary is-small" v-model="quantity_array[index]" type="number">
                   </td>
                   <td v-if="retail_array[index]">{{ row.rate_out_retail }}</td>
                   <td v-else>{{ row.rate_out_wholesale }}</td>
                   <td>0.0</td>
-                  <td v-if="retail_array[index]">{{ row.rate_out_retail * quantity_array[index] }}</td>
-                  <td v-else>{{ row.rate_out_wholesale * quantity_array[index] }}</td>
+                  <td v-if="retail_array[index]">{{ price = row.rate_out_retail * quantity_array[index] }}</td>
+                  <td v-else>{{ price = row.rate_out_wholesale * quantity_array[index] }}</td>
                 </tr>  
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td><strong>Grand Total</strong></td>
+                  <td>{{ grand_total }}</td>
+                </tr>
             </tbody>
             <SalesBox :sale="sale" :associated_products="associated_products" :sales_receipts="sales_receipts"/>
         </table>
     </div>  
 
-    <div class="column is-two-thirds">
-      <label class="label">Add product</label>
-      <div class="notification is-primary is-light">
-        <SearchBox @add-product-sale="addProducts"/>
-      </div>
-    </div>
-
-    <div class="column">
-      <label class="label">Is retail?</label>
-      <div class="notification is-primary is-light">
-          <input v-model="retail" type="checkbox">
-          Is retail?
-      </div>
-    </div>
-
-    <hr>
-
-    <div class="column is-one-third">
-      <label class="label">Quantity</label>
-      <div class="notification is-primary is-light">
-          <input v-model="quantity" type="number">
-      </div>
-    </div>
     <div class="column is-two-third"> 
       <label class="label">Submit Sale?</label>
       <div class="buttons">
-        <button class="button is-danger">New Sale</button>
+        <button @click="updateSale(); reloadOnSaleSubmit()"
+        class="button is-danger">New Sale</button>
       </div>
     </div>
   </div>
@@ -129,15 +120,19 @@ export default {
       sales_status: [],
       selected_status: '',
       sale: '',
+      saleId: '',
       product: '',
-      receipt: '',
+      receipt: [],
       retail: false,
       retail_array:[false],
       quantity:0,
       quantity_array: [],
       search_result: {},
       tablerows: [],
-      tablerowcounter: 0
+      tablerowcounter: 0,
+      price : 0,
+      grand_total:0,
+      updated_sale: []
     }
   },
   mounted () {
@@ -170,13 +165,11 @@ export default {
     },
     async performSearch (selectedProduct) {
       this.$store.commit('setIsLoading', true)
-      console.log(selectedProduct)
       await axios
         .post('api/v1/products/sales_search/', { query: selectedProduct })
         .then(response => {
           this.product = response.data;
           this.addProductsToSales(this.sale, this.product)
-          console.log(this.product.id)
         })
         .catch(error => {
           console.log(error);
@@ -195,8 +188,7 @@ export default {
       await axios
         .post(`api/v1/sales/receipts/${sale.id}/`, data)
         .then(response => {
-          this.receipt = response.data;
-          console.log(this.receipt)
+          this.receipt.push(response.data);
         })
         .catch(error => {
           console.log(error)
@@ -215,34 +207,35 @@ export default {
     },
     setRetail() {
       this.retail = this.retail_array[this.tablerowcounter - 1];
-      console.log(this.retail)
     },
     addProduct() {
       this.quantity = this.quantity_array[this.tablerowcounter - 1];
       this.addProductsToSales(this.sale, this.search_result)
+    },
+    getGrandTotal()
+    {
+      this.grand_total += this.price
+    },
+    async updateSale (){
+      const data = {
+        sales: this.sale,
+        sale_amount: this.grand_total
+      }
+      this.$store.commit('setIsLoading', true)
+      await axios
+        .post(`api/v1/sales/${this.saleId}/`, data)
+        .then(response => {
+          this.updated_sale.push(response.data);
+          console.log(this.updated_sale)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      this.$store.commit('setIsLoading', false)
+    },
+    reloadOnSaleSubmit(){
+      this.$router.go()
     }
-
-    // async submitForm () {
-    //   const data = {
-    //     // 'products': this.products.id,
-    //     products: this.products,
-    //     quantity_sold: this.quantity_sold,
-    //     price_per_unit_retail: this.price_per_unit_retail,
-    //     price_per_unit_wholesale: this.price_per_unit_wholesale,
-    //     is_retail: this.is_retail,
-    //     sales: this.sales
-    //   }
-    //   this.$store.commit('setIsLoading', true)
-    //   await axios
-    //     .post('api/v1/sales/receipts/', data)
-    //     .then(response => {
-    //     })
-    //     .catch(error => {
-    //       console.log(error)
-    //     })
-    //   this.$store.commit('setIsLoading', false)
-    // }
-
   }
 }
 </script>
